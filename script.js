@@ -93,22 +93,72 @@ navByTarget.forEach((_, id) => {
   if (target) navObserver.observe(target);
 });
 
-// Scroll progress bar.
+// Scroll progress bar, compact nav, and timeline draw-line — batched into one
+// rAF-throttled handler so scrolling only triggers a single layout pass.
 const progressBar = document.getElementById('scrollProgress');
+const scrollBall = document.getElementById('scrollBall');
+const siteHeader = document.querySelector('.site-header');
+const timelineWrap = document.getElementById('timeline');
+const timelineFill = document.getElementById('timelineFill');
 let ticking = false;
 
-function updateProgress() {
+function updateOnScroll() {
   const scrollTop = window.scrollY;
   const docHeight = document.documentElement.scrollHeight - window.innerHeight;
   const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
   progressBar.style.width = `${pct}%`;
+  // Roll the ball along the bar — rotation is just cosmetic (a few turns
+  // over the full page), not a physically accurate roll distance.
+  scrollBall.style.left = `${pct}%`;
+  scrollBall.style.transform = `translateX(-50%) rotate(${pct * 9}deg)`;
+
+  siteHeader.classList.toggle('scrolled', scrollTop > 10);
+
+  if (timelineWrap && timelineFill) {
+    const rect = timelineWrap.getBoundingClientRect();
+    // Progress = how far the viewport's vertical center has moved through the
+    // timeline's span, so the line finishes drawing as the last item comes into view.
+    const viewportCenter = window.innerHeight * 0.5;
+    const raw = (viewportCenter - rect.top) / rect.height;
+    const fillPct = Math.max(0, Math.min(1, raw)) * 100;
+    timelineFill.style.height = `${fillPct}%`;
+  }
+
   ticking = false;
 }
 
 window.addEventListener('scroll', () => {
   if (!ticking) {
-    requestAnimationFrame(updateProgress);
+    requestAnimationFrame(updateOnScroll);
     ticking = true;
   }
 });
-updateProgress();
+window.addEventListener('resize', updateOnScroll);
+updateOnScroll();
+
+// 3D tilt on project cards — pointer-driven, so it's naturally skipped on
+// touch devices (no hover/mousemove) and left alone under reduced motion.
+if (!prefersReducedMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  document.querySelectorAll('.grid-projects .card').forEach((card) => {
+    const maxTilt = 6; // degrees
+
+    card.style.transition = 'transform 0.15s ease-out, border-color 0.2s ease, box-shadow 0.25s ease';
+
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width - 0.5; // -0.5..0.5
+      const py = (e.clientY - rect.top) / rect.height - 0.5;
+      const rotateY = px * maxTilt * 2;
+      const rotateX = -py * maxTilt * 2;
+      card.style.transform = `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transition = 'transform 0.35s cubic-bezier(0.16, 0.84, 0.44, 1), border-color 0.2s ease, box-shadow 0.25s ease';
+      card.style.transform = '';
+      setTimeout(() => {
+        card.style.transition = 'transform 0.15s ease-out, border-color 0.2s ease, box-shadow 0.25s ease';
+      }, 350);
+    });
+  });
+}

@@ -138,6 +138,19 @@ a:hover { text-decoration: underline; }
   transition: width 0.1s linear;
 }
 
+.scroll-ball {
+  position: absolute;
+  left: 0%;
+  bottom: -8px;
+  width: 15px;
+  height: 15px;
+  transform: translateX(-50%);
+  transition: left 0.1s linear;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+}
+.scroll-ball svg { display: block; width: 100%; height: 100%; }
+
 .nav {
   max-width: var(--wrap);
   margin: 0 auto;
@@ -145,7 +158,11 @@ a:hover { text-decoration: underline; }
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: padding 0.25s ease;
 }
+
+.site-header.scrolled .nav { padding: 8px 24px; }
+.site-header.scrolled .nav-brand { transform: scale(0.92); }
 
 .nav-brand {
   font-family: var(--font-mono);
@@ -155,6 +172,8 @@ a:hover { text-decoration: underline; }
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 4px 10px;
+  display: inline-block;
+  transition: transform 0.25s ease, border-color 0.2s ease;
 }
 .nav-brand:hover { text-decoration: none; border-color: var(--accent); }
 
@@ -335,6 +354,25 @@ a:hover { text-decoration: underline; }
 }
 .btn-primary:hover { opacity: 0.92; }
 
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  width: 26px;
+  height: 26px;
+  transform: translateX(-50%);
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+  animation: ballBounce 1.8s ease-in-out infinite;
+}
+.scroll-cue:hover { opacity: 1; }
+.scroll-cue svg { display: block; width: 100%; height: 100%; }
+
+@keyframes ballBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+  50% { transform: translateX(-50%) translateY(10px) rotate(70deg); }
+}
+
 /* ---------- Sections ---------- */
 .section {
   padding: 72px 0;
@@ -371,11 +409,23 @@ a:hover { text-decoration: underline; }
 }
 
 /* ---------- Timeline (experience) ---------- */
+.timeline-wrap { position: relative; }
+
 .timeline {
   list-style: none;
   margin: 0;
   padding: 0;
   border-left: 1px solid var(--border);
+}
+
+.timeline-fill {
+  position: absolute;
+  left: -1px;
+  top: 0;
+  width: 1px;
+  height: 0%;
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  transition: height 0.1s linear;
 }
 
 .timeline-item {
@@ -527,13 +577,35 @@ a:hover { text-decoration: underline; }
   background: var(--bg-elevated);
   border: 1px solid var(--border);
   color: var(--text);
-  transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease,
+    opacity 0.4s ease;
 }
 .chip:hover {
   border-color: var(--accent);
   background: color-mix(in srgb, var(--accent) 12%, var(--bg-elevated));
   transform: translateY(-2px);
 }
+
+/* Chips pop in one-by-one once their skill-group has scrolled into view. */
+.js-reveal .skill-group .chip { opacity: 0; transform: scale(0.85); }
+.js-reveal .skill-group.is-visible .chip {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 0.2s ease, background-color 0.2s ease;
+}
+.js-reveal .skill-group.is-visible .chip:hover { transform: translateY(-2px); }
+/* stagger by position within the group */
+.chip:nth-child(1) { transition-delay: 0.02s; }
+.chip:nth-child(2) { transition-delay: 0.06s; }
+.chip:nth-child(3) { transition-delay: 0.1s; }
+.chip:nth-child(4) { transition-delay: 0.14s; }
+.chip:nth-child(5) { transition-delay: 0.18s; }
+.chip:nth-child(6) { transition-delay: 0.22s; }
+.chip:nth-child(7) { transition-delay: 0.26s; }
+.chip:nth-child(8) { transition-delay: 0.3s; }
+.chip:nth-child(9) { transition-delay: 0.34s; }
+.chip:nth-child(10) { transition-delay: 0.38s; }
 
 /* ---------- Education ---------- */
 .edu-card {
