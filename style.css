@@ -486,7 +486,7 @@ a:hover { text-decoration: underline; }
 /* ---------- Projects ---------- */
 .grid-projects {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 20px;
 }
 
@@ -552,7 +552,7 @@ a:hover { text-decoration: underline; }
 /* ---------- Skills ---------- */
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
   gap: 28px 40px;
 }
 
