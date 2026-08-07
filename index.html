@@ -27,6 +27,7 @@
       <li><a href="#about" data-nav="about">About</a></li>
       <li><a href="#experience" data-nav="experience">Experience</a></li>
       <li><a href="#projects" data-nav="projects">Projects</a></li>
+      <li><a href="#contributions" data-nav="contributions">OSS</a></li>
       <li><a href="#skills" data-nav="skills">Skills</a></li>
       <li><a href="#education" data-nav="education">Education</a></li>
       <li><a href="#contact" class="nav-cta" data-nav="contact">Contact</a></li>
@@ -229,9 +230,62 @@
     </div>
   </section>
 
+  <section class="section" id="contributions">
+    <div class="wrap">
+      <h2 class="section-title reveal"><span class="num">04</span>Open Source Contributions</h2>
+      <p class="about-text reveal" style="margin-bottom: 32px;">
+        Fixes I've shipped to codebases I don't own — found through real bug reports, root-caused by reading
+        the actual source, and sent through each project's normal review process.
+      </p>
+      <div class="grid-projects">
+
+        <article class="card reveal">
+          <div class="card-head">
+            <h3><a href="https://github.com/Tencent/cherry-markdown" target="_blank" rel="noopener">Cherry Markdown</a></h3>
+            <span class="badge">Open · PR #1847</span>
+          </div>
+          <p class="card-meta">Tencent · 4.8k★ · JS/CSS</p>
+          <ul>
+            <li>Root-caused a CSS bug where the code-block toolbar's copy/edit icons balloon up and overlap when a user increases the editor's base font size.</li>
+            <li>Traced it to a missing icon-size constraint the rest of the toolbar already used elsewhere, and fixed it with a 4-line change.</li>
+          </ul>
+          <p class="card-meta" style="margin: 14px 0 0;"><a href="https://github.com/Tencent/cherry-markdown/pull/1847" target="_blank" rel="noopener">View PR #1847 →</a></p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-head">
+            <h3><a href="https://github.com/dell/OpenManage-Enterprise" target="_blank" rel="noopener">OpenManage Enterprise</a></h3>
+            <span class="badge badge-merged">Merged · PR #254</span>
+          </div>
+          <p class="card-meta">Dell · PowerShell</p>
+          <ul>
+            <li>Fixed a PowerShell 7 compatibility break across 16 scripts caused by a .NET certificate-validation API that PS7 removed.</li>
+            <li>Replaced it with PS7's built-in <code>-SkipCertificateCheck</code> flag, matching the fix already adopted elsewhere in the repo.</li>
+          </ul>
+          <p class="card-meta" style="margin: 14px 0 0;"><a href="https://github.com/dell/OpenManage-Enterprise/pull/254" target="_blank" rel="noopener">View PR #254 →</a></p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-head">
+            <h3><a href="https://github.com/Valour-Software/Valour" target="_blank" rel="noopener">Valour</a></h3>
+            <span class="badge badge-merged">5 PRs · 2 Merged</span>
+          </div>
+          <p class="card-meta">Valour Software · C#/.NET, Blazor — kept contributing after my internship</p>
+          <ul>
+            <li>Fixed a NullReferenceException crash when opening an invite link while logged out. (Merged)</li>
+            <li>Root-caused a client/server cache-merge bug that silently dropped reply references when editing a message.</li>
+            <li>Fixed context menus rendering off-screen near viewport edges.</li>
+          </ul>
+          <p class="card-meta" style="margin: 14px 0 0;"><a href="https://github.com/Valour-Software/Valour/pulls?q=is%3Apr+author%3ALuisMend12" target="_blank" rel="noopener">View PRs →</a></p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="skills">
     <div class="wrap">
-      <h2 class="section-title reveal"><span class="num">04</span>Skills</h2>
+      <h2 class="section-title reveal"><span class="num">05</span>Skills</h2>
       <div class="skills-grid">
         <div class="skill-group reveal">
           <h3>Languages</h3>
@@ -284,7 +338,7 @@
 
   <section class="section" id="education">
     <div class="wrap">
-      <h2 class="section-title reveal"><span class="num">05</span>Education</h2>
+      <h2 class="section-title reveal"><span class="num">06</span>Education</h2>
       <div class="edu-card reveal">
         <div class="timeline-head">
           <h3>University of Connecticut</h3>

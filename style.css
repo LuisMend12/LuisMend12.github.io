@@ -516,6 +516,8 @@ a:hover { text-decoration: underline; }
 }
 
 .card-head h3 { margin: 0; font-size: 1.08rem; }
+.card-head h3 a { color: inherit; text-decoration: none; }
+.card-head h3 a:hover { text-decoration: underline; }
 
 .badge {
   font-family: var(--font-mono);
@@ -533,11 +535,26 @@ a:hover { text-decoration: underline; }
   background: color-mix(in srgb, var(--gold) 10%, transparent);
 }
 
+.badge-merged {
+  color: #34d399;
+  border-color: color-mix(in srgb, #34d399 45%, transparent);
+  background: color-mix(in srgb, #34d399 10%, transparent);
+}
+
 .card-meta {
   font-family: var(--font-mono);
   font-size: 0.8rem;
   color: var(--text-faint);
   margin: 0 0 14px;
+}
+
+.card code {
+  font-family: var(--font-mono);
+  background: var(--bg-elevated-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 0.85em;
 }
 
 .card ul {
