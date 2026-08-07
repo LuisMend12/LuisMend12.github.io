@@ -37,6 +37,49 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal { opacity: 1 !important; transform: none !important; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blobDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(3%, -4%) scale(1.06); }
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes dash {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Scroll-reveal: visible by default (no-JS / no-IntersectionObserver fallback).
+   Only html.js-reveal (set synchronously in <head>, see index.html) hides
+   elements up front so JS can animate them in via .is-visible. */
+.js-reveal .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 0.84, 0.44, 1),
+    transform 0.7s cubic-bezier(0.16, 0.84, 0.44, 1);
+}
+.js-reveal .reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -85,6 +128,16 @@ a:hover { text-decoration: underline; }
   border-bottom: 1px solid var(--border);
 }
 
+.scroll-progress {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width 0.1s linear;
+}
+
 .nav {
   max-width: var(--wrap);
   margin: 0 auto;
@@ -115,19 +168,40 @@ a:hover { text-decoration: underline; }
 }
 
 .nav-links a {
+  position: relative;
   color: var(--text-dim);
   font-size: 0.95rem;
   font-weight: 500;
+  transition: color 0.2s ease;
 }
 .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.nav-links a:hover::after,
+.nav-links a.active::after { transform: scaleX(1); }
+.nav-links a.active { color: var(--text); }
 
 .nav-cta {
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 6px 14px !important;
   color: var(--text) !important;
+  transition: border-color 0.2s ease, transform 0.2s ease;
 }
-.nav-cta:hover { border-color: var(--accent); }
+.nav-cta:hover { border-color: var(--accent); transform: translateY(-1px); }
+.nav-cta::after { display: none; }
 
 .nav-toggle {
   display: none;
@@ -158,14 +232,25 @@ a:hover { text-decoration: underline; }
 
 .hero-bg {
   position: absolute;
-  inset: 0;
+  inset: -10%;
   background:
     radial-gradient(600px 300px at 15% 20%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%),
     radial-gradient(500px 280px at 85% 10%, color-mix(in srgb, var(--accent-2) 14%, transparent), transparent 70%);
   pointer-events: none;
+  animation: blobDrift 16s ease-in-out infinite;
+  will-change: transform;
 }
 
 .hero-inner { position: relative; }
+
+.hero-inner > * {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 0.84, 0.44, 1) forwards;
+}
+.eyebrow { animation-delay: 0.05s; }
+.hero h1 { animation-delay: 0.15s; }
+.hero-tagline { animation-delay: 0.28s; }
+.hero-actions { animation-delay: 0.42s; }
 
 .eyebrow {
   font-family: var(--font-mono);
@@ -180,6 +265,18 @@ a:hover { text-decoration: underline; }
   line-height: 1.05;
   margin: 0 0 22px;
   letter-spacing: -0.02em;
+  background: linear-gradient(100deg, var(--text) 40%, var(--accent) 60%, var(--accent-2) 80%, var(--text) 100%);
+  background-size: 250% auto;
+  background-position: 0% center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 0.84, 0.44, 1) forwards 0.15s,
+    gradientPan 9s linear infinite 1s;
+}
+
+@keyframes gradientPan {
+  to { background-position: -250% center; }
 }
 
 .hero-tagline {
@@ -201,6 +298,7 @@ a:hover { text-decoration: underline; }
 }
 
 .btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   border: 1px solid var(--border);
@@ -209,15 +307,33 @@ a:hover { text-decoration: underline; }
   font-weight: 600;
   font-size: 0.95rem;
   color: var(--text);
+  overflow: hidden;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
-.btn:hover { border-color: var(--accent); text-decoration: none; }
+.btn:hover {
+  border-color: var(--accent);
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -12px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+.btn:active { transform: translateY(0); }
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 40%, color-mix(in srgb, var(--text) 15%, transparent) 50%, transparent 60%);
+  transform: translateX(-120%);
+  transition: transform 0.6s ease;
+}
+.btn:hover::before { transform: translateX(120%); }
 
 .btn-primary {
   background: var(--accent);
   border-color: var(--accent);
   color: #0b0d12;
 }
-.btn-primary:hover { opacity: 0.9; }
+.btn-primary:hover { opacity: 0.92; }
 
 /* ---------- Sections ---------- */
 .section {
@@ -232,6 +348,14 @@ a:hover { text-decoration: underline; }
   font-size: 1.6rem;
   margin: 0 0 36px;
   letter-spacing: -0.01em;
+}
+
+.section-title .num {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+.section.is-visible .section-title .num {
+  animation: floatY 3s ease-in-out infinite;
 }
 
 .num {
@@ -270,6 +394,11 @@ a:hover { text-decoration: underline; }
   background: var(--accent);
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent);
 }
+.js-reveal .timeline-marker {
+  transform: scale(0);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s;
+}
+.js-reveal .timeline-item.is-visible .timeline-marker { transform: scale(1); }
 
 .timeline-head {
   display: flex;
@@ -316,11 +445,16 @@ a:hover { text-decoration: underline; }
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 24px;
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  transition: border-color 0.2s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 .card:hover {
   border-color: var(--accent);
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px -20px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.card:hover .badge-gold {
+  animation: floatY 1.6s ease-in-out infinite;
 }
 
 .card-head {
@@ -393,6 +527,12 @@ a:hover { text-decoration: underline; }
   background: var(--bg-elevated);
   border: 1px solid var(--border);
   color: var(--text);
+  transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+}
+.chip:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-elevated));
+  transform: translateY(-2px);
 }
 
 /* ---------- Education ---------- */

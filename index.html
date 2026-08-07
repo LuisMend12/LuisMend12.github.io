@@ -1,6 +1,11 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>
+  // Only opt into scroll-reveal (elements start hidden) when JS actually runs
+  // and can drive it; otherwise content stays visible by default (see style.css).
+  if ('IntersectionObserver' in window) document.documentElement.classList.add('js-reveal');
+</script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Luis Mendez</title>
@@ -19,14 +24,15 @@
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#about">About</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#contact" class="nav-cta">Contact</a></li>
+      <li><a href="#about" data-nav="about">About</a></li>
+      <li><a href="#experience" data-nav="experience">Experience</a></li>
+      <li><a href="#projects" data-nav="projects">Projects</a></li>
+      <li><a href="#skills" data-nav="skills">Skills</a></li>
+      <li><a href="#education" data-nav="education">Education</a></li>
+      <li><a href="#contact" class="nav-cta" data-nav="contact">Contact</a></li>
     </ul>
   </nav>
+  <div class="scroll-progress" id="scrollProgress"></div>
 </header>
 
 <main id="main">
@@ -47,8 +53,8 @@
 
   <section class="section" id="about">
     <div class="wrap">
-      <h2 class="section-title"><span class="num">01</span>About</h2>
-      <p class="about-text">
+      <h2 class="section-title reveal"><span class="num">01</span>About</h2>
+      <p class="about-text reveal">
         I'm a dual-degree Computer Science &amp; Engineering / Mathematics student at the University of Connecticut,
         concentrating in AI, and expecting to graduate in April 2027. My work spans two threads: research —
         pose-based person re-identification, transportation infrastructure detection with Vision Transformers, and
@@ -61,10 +67,10 @@
 
   <section class="section" id="experience">
     <div class="wrap">
-      <h2 class="section-title"><span class="num">02</span>Experience</h2>
+      <h2 class="section-title reveal"><span class="num">02</span>Experience</h2>
       <ol class="timeline">
 
-        <li class="timeline-item">
+        <li class="timeline-item reveal">
           <div class="timeline-marker" aria-hidden="true"></div>
           <div class="timeline-content">
             <div class="timeline-head">
@@ -80,7 +86,7 @@
           </div>
         </li>
 
-        <li class="timeline-item">
+        <li class="timeline-item reveal">
           <div class="timeline-marker" aria-hidden="true"></div>
           <div class="timeline-content">
             <div class="timeline-head">
@@ -96,7 +102,7 @@
           </div>
         </li>
 
-        <li class="timeline-item">
+        <li class="timeline-item reveal">
           <div class="timeline-marker" aria-hidden="true"></div>
           <div class="timeline-content">
             <div class="timeline-head">
@@ -112,7 +118,7 @@
           </div>
         </li>
 
-        <li class="timeline-item">
+        <li class="timeline-item reveal">
           <div class="timeline-marker" aria-hidden="true"></div>
           <div class="timeline-content">
             <div class="timeline-head">
@@ -133,10 +139,10 @@
 
   <section class="section" id="projects">
     <div class="wrap">
-      <h2 class="section-title"><span class="num">03</span>Projects</h2>
+      <h2 class="section-title reveal"><span class="num">03</span>Projects</h2>
       <div class="grid-projects">
 
-        <article class="card">
+        <article class="card reveal">
           <div class="card-head">
             <h3>Aegis Wallet</h3>
             <span class="badge">MIT Bitcoin 2026 · Top 10</span>
@@ -149,7 +155,7 @@
           </ul>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="card-head">
             <h3>Quantum Risk Engineering</h3>
             <span class="badge badge-gold">MIT iQuHACK 2026 · 1st Place</span>
@@ -162,7 +168,7 @@
           </ul>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="card-head">
             <h3>Full Quantum Hash Function</h3>
             <span class="badge badge-gold">Yale · 1st Place</span>
@@ -175,7 +181,7 @@
           </ul>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="card-head">
             <h3>Phoenix</h3>
             <span class="badge">HackHarvard 2025</span>
@@ -188,7 +194,7 @@
           </ul>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="card-head">
             <h3>Neural Data Visualization Tool</h3>
             <span class="badge">HackDartmouth</span>
@@ -207,16 +213,16 @@
 
   <section class="section" id="skills">
     <div class="wrap">
-      <h2 class="section-title"><span class="num">04</span>Skills</h2>
+      <h2 class="section-title reveal"><span class="num">04</span>Skills</h2>
       <div class="skills-grid">
-        <div class="skill-group">
+        <div class="skill-group reveal">
           <h3>Languages</h3>
           <div class="chips">
             <span class="chip">Python</span><span class="chip">C++</span><span class="chip">Java</span>
             <span class="chip">C</span><span class="chip">C#</span><span class="chip">JavaScript</span><span class="chip">TypeScript</span>
           </div>
         </div>
-        <div class="skill-group">
+        <div class="skill-group reveal">
           <h3>Backend</h3>
           <div class="chips">
             <span class="chip">Node.js</span><span class="chip">Express</span><span class="chip">Flask</span>
@@ -224,14 +230,14 @@
             <span class="chip">MCP</span><span class="chip">Git</span><span class="chip">Linux</span>
           </div>
         </div>
-        <div class="skill-group">
+        <div class="skill-group reveal">
           <h3>Frontend</h3>
           <div class="chips">
             <span class="chip">React</span><span class="chip">Next.js</span><span class="chip">Tailwind CSS</span>
             <span class="chip">Angular</span><span class="chip">Vue.js</span>
           </div>
         </div>
-        <div class="skill-group">
+        <div class="skill-group reveal">
           <h3>Machine Learning &amp; CV</h3>
           <div class="chips">
             <span class="chip">PyTorch</span><span class="chip">Vision Transformers</span><span class="chip">OpenCV</span>
@@ -239,14 +245,14 @@
             <span class="chip">Pandas</span><span class="chip">SciPy</span><span class="chip">LangChain</span><span class="chip">LangSmith</span>
           </div>
         </div>
-        <div class="skill-group">
+        <div class="skill-group reveal">
           <h3>Blockchain &amp; Security</h3>
           <div class="chips">
             <span class="chip">Bitcoin</span><span class="chip">Lightning Network</span>
             <span class="chip">Post-Quantum Cryptography</span><span class="chip">Zero-Knowledge Proofs</span>
           </div>
         </div>
-        <div class="skill-group">
+        <div class="skill-group reveal">
           <h3>Certifications</h3>
           <div class="chips">
             <span class="chip">Microsoft Foundational C#</span>
@@ -260,8 +266,8 @@
 
   <section class="section" id="education">
     <div class="wrap">
-      <h2 class="section-title"><span class="num">05</span>Education</h2>
-      <div class="edu-card">
+      <h2 class="section-title reveal"><span class="num">05</span>Education</h2>
+      <div class="edu-card reveal">
         <div class="timeline-head">
           <h3>University of Connecticut</h3>
           <span class="timeline-date">Apr 2027</span>
