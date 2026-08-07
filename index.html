@@ -272,11 +272,77 @@
           </div>
           <p class="card-meta">Valour Software · C#/.NET, Blazor — kept contributing after my internship</p>
           <ul>
+            <li>Cleaned up database models and updated foreign key constraints, during my internship. (Merged)</li>
             <li>Fixed a NullReferenceException crash when opening an invite link while logged out. (Merged)</li>
+            <li>Fixed onboarding copy that leaked an internal type name ("HostedPlanets") into user-facing text.</li>
             <li>Root-caused a client/server cache-merge bug that silently dropped reply references when editing a message.</li>
             <li>Fixed context menus rendering off-screen near viewport edges.</li>
           </ul>
           <p class="card-meta" style="margin: 14px 0 0;"><a href="https://github.com/Valour-Software/Valour/pulls?q=is%3Apr+author%3ALuisMend12" target="_blank" rel="noopener">View PRs →</a></p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-head">
+            <h3><a href="https://github.com/ziqin-liu/JsDeAgent" target="_blank" rel="noopener">JsDeAgent</a></h3>
+            <span class="badge badge-merged">6 PRs · 4 Merged</span>
+          </div>
+          <p class="card-meta">TypeScript · LangChain/LangSmith — a multi-agent JS deobfuscation tool</p>
+          <ul>
+            <li>Fixed a Windows path bug where a hardcoded forward-slash <code>.replace()</code> silently no-op'd on Windows' backslash paths, corrupting the AI-message cache; documented the environment setup.</li>
+            <li>Added token-based cost tracking, a duplicate-tool-call guard, and few-shot examples across the supervisor and worker agent prompts. (Merged)</li>
+            <li>Added a planning tool for the agent.</li>
+            <li>Built the control-flow-flattening deobfuscation agent and its tools. (Merged)</li>
+            <li>Built the dead-code-removal agent, across two iterations. (Merged)</li>
+          </ul>
+          <p class="card-meta" style="margin: 14px 0 0;"><a href="https://github.com/ziqin-liu/JsDeAgent/pulls?q=is%3Apr+author%3ALuisMend12" target="_blank" rel="noopener">View PRs →</a></p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-head">
+            <h3><a href="https://github.com/NVIDIA/k8s-test-infra" target="_blank" rel="noopener">k8s-test-infra</a></h3>
+            <span class="badge">Open · PR #576</span>
+          </div>
+          <p class="card-meta">NVIDIA · Shell/Kubernetes</p>
+          <ul>
+            <li>Fixed demo scripts that silently ran <code>kubectl</code>/<code>helm</code> against the reader's ambient cluster context instead of the demo's own Kind cluster, risking real (wrong) resources being matched and modified.</li>
+          </ul>
+          <p class="card-meta" style="margin: 14px 0 0;"><a href="https://github.com/NVIDIA/k8s-test-infra/pull/576" target="_blank" rel="noopener">View PR #576 →</a></p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-head">
+            <h3><a href="https://github.com/extra-org/extra" target="_blank" rel="noopener">extra</a></h3>
+            <span class="badge badge-merged">Merged · PR #83</span>
+          </div>
+          <p class="card-meta">Docker</p>
+          <ul>
+            <li>Fixed the local Docker build's image tag to match the production registry prefix, closing a mismatch that made it unclear a local build was the same image as prod.</li>
+          </ul>
+          <p class="card-meta" style="margin: 14px 0 0;"><a href="https://github.com/extra-org/extra/pull/83" target="_blank" rel="noopener">View PR #83 →</a></p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-head">
+            <h3><a href="https://github.com/imann128/tsauditor" target="_blank" rel="noopener">tsauditor</a></h3>
+            <span class="badge badge-merged">Merged · PR #51</span>
+          </div>
+          <p class="card-meta">Python</p>
+          <ul>
+            <li>Fixed a count mismatch in a security-guard reporting library where <code>to_dict()</code> silently dropped the "info" count that <code>to_json()</code> included, plus added a regression test.</li>
+          </ul>
+          <p class="card-meta" style="margin: 14px 0 0;"><a href="https://github.com/imann128/tsauditor/pull/51" target="_blank" rel="noopener">View PR #51 →</a></p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-head">
+            <h3><a href="https://github.com/ascherj/pathreview" target="_blank" rel="noopener">pathreview</a></h3>
+            <span class="badge">Open · PR #199</span>
+          </div>
+          <p class="card-meta">Python · Redis</p>
+          <ul>
+            <li>Fixed an AI code-review orchestrator that lost all progress on a mid-review restart by checkpointing each tool's result to Redis immediately, instead of only after the entire run finished.</li>
+          </ul>
+          <p class="card-meta" style="margin: 14px 0 0;"><a href="https://github.com/ascherj/pathreview/pull/199" target="_blank" rel="noopener">View PR #199 →</a></p>
         </article>
 
       </div>
