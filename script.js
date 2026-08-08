@@ -162,3 +162,143 @@ if (!prefersReducedMotion && window.matchMedia('(hover: hover) and (pointer: fin
     });
   });
 }
+
+// Particle network background in the hero, inspired by williamlin.io — dots
+// drift slowly and connect to nearby neighbors with a line whose opacity
+// fades with distance. Click a particle to pop it.
+(() => {
+  const canvas = document.getElementById('particleCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const hero = canvas.closest('.hero');
+
+  let particles = [];
+  let width = 0;
+  let height = 0;
+  let dpr = Math.min(window.devicePixelRatio || 1, 2);
+  let dotColor = '#e8eaf0';
+  let lineColor = '232, 234, 240'; // r, g, b — alpha applied per-line
+
+  const LINK_DIST = 130;
+  const DENSITY = 16000; // px^2 per particle
+
+  function readThemeColors() {
+    const styles = getComputedStyle(document.documentElement);
+    dotColor = styles.getPropertyValue('--text').trim() || '#e8eaf0';
+    const hex = dotColor.replace('#', '');
+    if (hex.length === 6) {
+      const r = parseInt(hex.slice(0, 2), 16);
+      const g = parseInt(hex.slice(2, 4), 16);
+      const b = parseInt(hex.slice(4, 6), 16);
+      lineColor = `${r}, ${g}, ${b}`;
+    }
+  }
+
+  function makeParticle() {
+    return {
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+      r: 1.4 + Math.random() * 1.2,
+    };
+  }
+
+  function resize() {
+    const rect = hero.getBoundingClientRect();
+    width = rect.width;
+    height = rect.height;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const targetCount = Math.min(110, Math.max(30, Math.round((width * height) / DENSITY)));
+    if (particles.length === 0) {
+      particles = Array.from({ length: targetCount }, makeParticle);
+    } else if (particles.length < targetCount) {
+      particles.push(...Array.from({ length: targetCount - particles.length }, makeParticle));
+    } else {
+      particles.length = targetCount;
+    }
+  }
+
+  function step() {
+    for (const p of particles) {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > width) p.vx *= -1;
+      if (p.y < 0 || p.y > height) p.vy *= -1;
+      p.x = Math.max(0, Math.min(width, p.x));
+      p.y = Math.max(0, Math.min(height, p.y));
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a = particles[i];
+        const b = particles[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < LINK_DIST) {
+          ctx.strokeStyle = `rgba(${lineColor}, ${0.16 * (1 - dist / LINK_DIST)})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    ctx.fillStyle = dotColor;
+    for (const p of particles) {
+      ctx.globalAlpha = 0.55;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  let rafId = null;
+  function loop() {
+    step();
+    draw();
+    rafId = requestAnimationFrame(loop);
+  }
+
+  readThemeColors();
+  resize();
+  window.addEventListener('resize', () => {
+    resize();
+    if (prefersReducedMotion) draw();
+  });
+
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    readThemeColors();
+    if (prefersReducedMotion) draw();
+  });
+
+  canvas.addEventListener('click', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const cx = e.clientX - rect.left;
+    const cy = e.clientY - rect.top;
+    const idx = particles.findIndex((p) => Math.hypot(p.x - cx, p.y - cy) < 10);
+    if (idx !== -1) {
+      particles.splice(idx, 1);
+      if (prefersReducedMotion) draw();
+    }
+  });
+
+  if (prefersReducedMotion) {
+    draw();
+  } else {
+    loop();
+  }
+})();
