@@ -289,7 +289,7 @@ if (!prefersReducedMotion && window.matchMedia('(hover: hover) and (pointer: fin
     const rect = canvas.getBoundingClientRect();
     const cx = e.clientX - rect.left;
     const cy = e.clientY - rect.top;
-    const idx = particles.findIndex((p) => Math.hypot(p.x - cx, p.y - cy) < 10);
+    const idx = particles.findIndex((p) => Math.hypot(p.x - cx, p.y - cy) < 16);
     if (idx !== -1) {
       particles.splice(idx, 1);
       if (prefersReducedMotion) draw();
