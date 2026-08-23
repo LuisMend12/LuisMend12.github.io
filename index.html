@@ -242,7 +242,7 @@
         <article class="card reveal">
           <div class="card-head">
             <h3><a href="https://github.com/Tencent/cherry-markdown" target="_blank" rel="noopener">Cherry Markdown</a></h3>
-            <span class="badge">Open · PR #1847</span>
+            <span class="badge badge-merged">Merged · PR #1847</span>
           </div>
           <p class="card-meta">Tencent · 4.8k★ · JS/CSS</p>
           <ul>
@@ -250,6 +250,18 @@
             <li>Traced it to a missing icon-size constraint the rest of the toolbar already used elsewhere, and fixed it with a 4-line change.</li>
           </ul>
           <p class="card-meta" style="margin: 14px 0 0;"><a href="https://github.com/Tencent/cherry-markdown/pull/1847" target="_blank" rel="noopener">View PR #1847 →</a></p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-head">
+            <h3><a href="https://github.com/microsoft/STL" target="_blank" rel="noopener">Microsoft STL</a></h3>
+            <span class="badge badge-merged">Merged · PR #6393</span>
+          </div>
+          <p class="card-meta">Microsoft · C++ · MSVC's implementation of the C++ Standard Library</p>
+          <ul>
+            <li>Bumped the <code>_MSVC_STL_UPDATE</code> compatibility macro to the current release month in <code>yvals_core.h</code>, closing that month's tracking issue as part of the repo's regular update cadence.</li>
+          </ul>
+          <p class="card-meta" style="margin: 14px 0 0;"><a href="https://github.com/microsoft/STL/pull/6393" target="_blank" rel="noopener">View PR #6393 →</a></p>
         </article>
 
         <article class="card reveal">
@@ -268,15 +280,17 @@
         <article class="card reveal">
           <div class="card-head">
             <h3><a href="https://github.com/Valour-Software/Valour" target="_blank" rel="noopener">Valour</a></h3>
-            <span class="badge badge-merged">5 PRs · 2 Merged</span>
+            <span class="badge badge-merged">9 PRs · 5 Merged</span>
           </div>
           <p class="card-meta">Valour Software · C#/.NET, Blazor — kept contributing after my internship</p>
           <ul>
             <li>Cleaned up database models and updated foreign key constraints, during my internship. (Merged)</li>
             <li>Fixed a NullReferenceException crash when opening an invite link while logged out. (Merged)</li>
-            <li>Fixed onboarding copy that leaked an internal type name ("HostedPlanets") into user-facing text.</li>
-            <li>Root-caused a client/server cache-merge bug that silently dropped reply references when editing a message.</li>
-            <li>Fixed context menus rendering off-screen near viewport edges.</li>
+            <li>Fixed onboarding copy that leaked an internal type name ("HostedPlanets") into user-facing text. (Merged)</li>
+            <li>Root-caused a client/server cache-merge bug that silently dropped reply references when editing a message. (Merged)</li>
+            <li>Fixed context menus rendering off-screen near the top/right viewport edges, extracting the boundary math into a unit-testable pure function. (Merged)</li>
+            <li>Followed up by adding the missing bottom-edge check for submenus, which still overflowed past the viewport's bottom.</li>
+            <li>Fixed the notification navigator silently dropping "N messages from M people" channel-activity notifications instead of opening the triggering message.</li>
           </ul>
           <p class="card-meta" style="margin: 14px 0 0;"><a href="https://github.com/Valour-Software/Valour/pulls?q=is%3Apr+author%3ALuisMend12" target="_blank" rel="noopener">View PRs →</a></p>
         </article>
@@ -284,7 +298,7 @@
         <article class="card reveal">
           <div class="card-head">
             <h3><a href="https://github.com/ziqin-liu/JsDeAgent" target="_blank" rel="noopener">JsDeAgent</a></h3>
-            <span class="badge badge-merged">6 PRs · 4 Merged</span>
+            <span class="badge badge-merged">29 PRs · 21 Merged</span>
           </div>
           <p class="card-meta">TypeScript · LangChain/LangSmith — a multi-agent JS deobfuscation tool</p>
           <ul>
@@ -312,13 +326,14 @@
         <article class="card reveal">
           <div class="card-head">
             <h3><a href="https://github.com/extra-org/extra" target="_blank" rel="noopener">extra</a></h3>
-            <span class="badge badge-merged">Merged · PR #83</span>
+            <span class="badge badge-merged">2 PRs · 1 Merged</span>
           </div>
-          <p class="card-meta">Docker</p>
+          <p class="card-meta">Docker · Python</p>
           <ul>
-            <li>Fixed the local Docker build's image tag to match the production registry prefix, closing a mismatch that made it unclear a local build was the same image as prod.</li>
+            <li>Fixed the local Docker build's image tag to match the production registry prefix, closing a mismatch that made it unclear a local build was the same image as prod. (Merged)</li>
+            <li>Added a check so <code>agentctl generate</code> reports tools declared in the top-level registry but never referenced by any agent, which previously looked identical to an intentional, unused declaration.</li>
           </ul>
-          <p class="card-meta" style="margin: 14px 0 0;"><a href="https://github.com/extra-org/extra/pull/83" target="_blank" rel="noopener">View PR #83 →</a></p>
+          <p class="card-meta" style="margin: 14px 0 0;"><a href="https://github.com/extra-org/extra/pulls?q=is%3Apr+author%3ALuisMend12" target="_blank" rel="noopener">View PRs →</a></p>
         </article>
 
         <article class="card reveal">
